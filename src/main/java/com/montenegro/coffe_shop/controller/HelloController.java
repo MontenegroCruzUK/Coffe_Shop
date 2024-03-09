@@ -1,4 +1,4 @@
-package com.montenegro.coffe_shop;
+package com.montenegro.coffe_shop.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
