@@ -62,8 +62,32 @@ public class Login_Cotroller implements Initializable {
 	
 	@FXML
 	public void switchForm (ActionEvent event) {
-	
-	
+		TranslateTransition slider = new TranslateTransition (Duration.seconds (0.5));
+		slider.setNode (anchP_SideForm);
+		if (event.getSource () == btn_Side_Create) {
+			slider.setToX (300);
+			
+			slider.setOnFinished (e -> {
+				btn_Side_AllReadyHave.setVisible (true);
+				btn_Side_Create.setVisible (false);
+				
+				anchP_FP_QuestionForm.setVisible (false);
+				anchP_LC_LoginForm.setVisible (true);
+				anchP_NP_NewPassForm.setVisible (false);
+			});
+		}else if (event.getSource ()==btn_Side_AllReadyHave){
+			slider.setToX (0);
+			slider.setOnFinished (e -> {
+				btn_Side_AllReadyHave.setVisible (false);
+				btn_Side_Create.setVisible (true);
+				
+				anchP_FP_QuestionForm.setVisible (false);
+				anchP_LC_LoginForm.setVisible (true);
+				anchP_NP_NewPassForm.setVisible (false);
+			});
+		}
+		slider.play ();
+		
 	}
 	
 	//Variables
