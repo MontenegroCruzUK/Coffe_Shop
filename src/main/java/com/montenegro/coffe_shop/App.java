@@ -1,5 +1,6 @@
 package com.montenegro.coffe_shop;
 
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -21,7 +22,7 @@ public class App extends Application {
 			stage.setScene (scene);
 			stage.show ();
 		} catch (IOException e) {
-			System.out.println ("Error en la ventana");
+			System.out.println ("Error en la ventana"+ e.getMessage ());
 		}
 	}
 	

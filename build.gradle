@@ -38,6 +38,10 @@ dependencies {
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+    // mysql-connector-java
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '5.1.48'
+    // ojdbc14
+    implementation 'com.oracle.database.jdbc:ojdbc8-production:19.7.0.0'
 }
 
 test {

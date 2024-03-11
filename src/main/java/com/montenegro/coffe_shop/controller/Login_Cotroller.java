@@ -1,6 +1,9 @@
 package com.montenegro.coffe_shop.controller;
 
 
+import com.montenegro.coffe_shop.model.DB_Connector;
+import com.montenegro.coffe_shop.model.login.Employe;
+import com.montenegro.coffe_shop.model.login.GivenEmploye;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,13 +19,16 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class Login_Cotroller implements Initializable {
+	Employe employe = new Employe ();
+	GivenEmploye givenEmploye = new GivenEmploye ();
 	@FXML
 	private AnchorPane anchP_FP_QuestionForm;
 	
 	
 	@Override
 	public void initialize (URL location, ResourceBundle resources) {
-	
+		cb_Rc_Question.setItems (givenEmploye.questionList ());
+		
 	}
 	
 	@FXML
@@ -52,8 +58,48 @@ public class Login_Cotroller implements Initializable {
 	
 	@FXML
 	public void register (ActionEvent event) {
-	
+		String username = txt_Rc_Username.getText ();
+		String password = txt_Rc_Password.getText ();
+		String question = (String) cb_Rc_Question.getValue ();
+		String answer = txt_Rc_Answer.getText ();
+		
+		if (areAllFieldsFilled (username, password, answer, question)) {
+			if (isValidInput (username) && isValidInput (answer)) {
+				System.out.println ("Todos los campos están llenos y son válidos.");
+			} else {
+				handleInvalidFields (username, answer);
+			}
+		} else {
+			System.out.println ("Fallo en los campos");
+		}
 	}
+	
+	//varargs (String... fields)
+	private boolean areAllFieldsFilled (String... fields) {
+		for (String field : fields) {
+			if (field.isEmpty ()) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	private void handleInvalidFields (String username, String answer) {
+		if (! isValidInput (username)) {
+			System.out.println ("El nombre de usuario contiene caracteres inesperados.");
+			txt_Rc_Username.clear ();
+		}
+		if (! isValidInput (answer)) {
+			System.out.println ("La respuesta contiene caracteres inesperados.");
+			txt_Rc_Answer.clear ();
+		}
+	}
+	
+	private boolean isValidInput (String input) {
+		// Verificar si el input contiene solo letras (sin caracteres especiales)
+		return input.matches ("[a-zA-Z]+");
+	}
+	
 	
 	@FXML
 	public void switchForgotPass (ActionEvent event) {
@@ -75,7 +121,7 @@ public class Login_Cotroller implements Initializable {
 				anchP_LC_LoginForm.setVisible (true);
 				anchP_NP_NewPassForm.setVisible (false);
 			});
-		}else if (event.getSource ()==btn_Side_AllReadyHave){
+		} else if (event.getSource () == btn_Side_AllReadyHave) {
 			slider.setToX (0);
 			slider.setOnFinished (e -> {
 				btn_Side_AllReadyHave.setVisible (false);
