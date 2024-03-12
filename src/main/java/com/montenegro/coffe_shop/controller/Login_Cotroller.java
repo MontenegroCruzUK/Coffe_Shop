@@ -1,9 +1,9 @@
 package com.montenegro.coffe_shop.controller;
 
 
-import com.montenegro.coffe_shop.model.DB_Connector;
-import com.montenegro.coffe_shop.model.login.Employe;
-import com.montenegro.coffe_shop.model.login.GivenEmploye;
+import com.montenegro.coffe_shop.model.Message;
+import com.montenegro.coffe_shop.model.login.Employee;
+import com.montenegro.coffe_shop.model.login.GivenEmployee;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,15 +19,15 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class Login_Cotroller implements Initializable {
-	Employe employe = new Employe ();
-	GivenEmploye givenEmploye = new GivenEmploye ();
+	Employee employee = new Employee ();
+	GivenEmployee givenEmployee = new GivenEmployee ();
 	@FXML
 	private AnchorPane anchP_FP_QuestionForm;
 	
 	
 	@Override
 	public void initialize (URL location, ResourceBundle resources) {
-		cb_Rc_Question.setItems (givenEmploye.questionList ());
+		cb_Rc_Question.setItems (givenEmployee.questionList ());
 		
 	}
 	
@@ -56,6 +56,7 @@ public class Login_Cotroller implements Initializable {
 	
 	}
 	
+	// ============ Star Registro ============
 	@FXML
 	public void register (ActionEvent event) {
 		String username = txt_Rc_Username.getText ();
@@ -63,15 +64,49 @@ public class Login_Cotroller implements Initializable {
 		String question = (String) cb_Rc_Question.getValue ();
 		String answer = txt_Rc_Answer.getText ();
 		
-		if (areAllFieldsFilled (username, password, answer, question)) {
+		if (question == null) {
+			System.out.println ("Por favor, selecciona una pregunta.");
+		} else if (areAllFieldsFilled (username, password, answer, question)) {
 			if (isValidInput (username) && isValidInput (answer)) {
 				System.out.println ("Todos los campos están llenos y son válidos.");
+				employee.setUsername (username);
+				employee.setPassword (password);
+				employee.setQuestion (question);
+				employee.setAnswer (answer);
+				
+				if (givenEmployee.registerUser (employee)) {
+					Message.information ("Usuario", "Successfully registered Account!");
+					clearFields ();
+					carrousel ();
+					
+				}
+				
 			} else {
 				handleInvalidFields (username, answer);
 			}
 		} else {
 			System.out.println ("Fallo en los campos");
 		}
+	}
+	
+	private void carrousel () {
+		TranslateTransition slider = new TranslateTransition ();
+		slider.setNode (anchP_SideForm);
+		slider.setToX (0);
+		slider.setDuration (Duration.seconds (0.5));
+		
+		slider.setOnFinished ((ActionEvent e) -> {
+			btn_Side_AllReadyHave.setVisible (false);
+			btn_Side_Create.setVisible (true);
+		});
+		slider.play ();
+	}
+	
+	private void clearFields () {
+		txt_Rc_Username.setText ("");
+		txt_Rc_Password.setText ("");
+		cb_Rc_Question.getSelectionModel ().clearSelection ();
+		txt_Rc_Answer.setText ("");
 	}
 	
 	//varargs (String... fields)
@@ -99,7 +134,7 @@ public class Login_Cotroller implements Initializable {
 		// Verificar si el input contiene solo letras (sin caracteres especiales)
 		return input.matches ("[a-zA-Z]+");
 	}
-	
+	// ============ End Registro ============
 	
 	@FXML
 	public void switchForgotPass (ActionEvent event) {
@@ -174,10 +209,10 @@ public class Login_Cotroller implements Initializable {
 	private Button btn_Side_Create;
 	
 	@FXML
-	private ComboBox<?> cb_Fp_Question;
+	private ComboBox<String> cb_Fp_Question;
 	
 	@FXML
-	private ComboBox<?> cb_Rc_Question;
+	private ComboBox<String> cb_Rc_Question;
 	
 	@FXML
 	private TextField txt_Fp_Answer;

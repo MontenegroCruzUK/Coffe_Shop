@@ -1,16 +1,16 @@
 package com.montenegro.coffe_shop.model.login;
 
-public class Employe {
+public class Employee {
 	private int id;
 	private String username;
 	private String password;
 	private String question;
 	private String answer;
 	
-	public Employe () {
+	public Employee () {
 	}
 	
-	public Employe (int id, String username, String password, String question, String answer) {
+	public Employee (int id, String username, String password, String question, String answer) {
 		this.id = id;
 		this.username = username;
 		this.password = password;

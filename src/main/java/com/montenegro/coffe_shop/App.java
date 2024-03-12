@@ -16,8 +16,8 @@ public class App extends Application {
 			FXMLLoader fxmlLoader = new FXMLLoader (App.class.getResource ("view/Login_View.fxml"));
 			Scene scene = new Scene (fxmlLoader.load ());
 			stage.setTitle ("Coffe Shop");
-			stage.setMinHeight (450);
-			stage.setMinWidth (650);
+			stage.setMinHeight (400);
+			stage.setMinWidth (600);
 			stage.setResizable (false);
 			stage.setScene (scene);
 			stage.show ();

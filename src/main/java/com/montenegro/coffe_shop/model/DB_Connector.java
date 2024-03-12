@@ -11,7 +11,8 @@ public class DB_Connector {
 		try {
 			Class.forName ("com.mysql.jdbc.Driver");
 			System.out.println ("Connecting to the database...");
-			connection = DriverManager.getConnection ("jdbc:mysql://localhost:3306/db_cafeshop", "root", "");
+			connection = DriverManager.getConnection ("jdbc:mysql://localhost:3306/db_cafeshop?useSSL=false",
+				"root", "");
 			System.out.println ("Successful connection to the database.");
 		} catch (SQLException | ClassNotFoundException se) {
 			System.out.println ("No se puede conectar");
@@ -19,14 +20,15 @@ public class DB_Connector {
 		}
 		return connection;
 	}
-	public static void closeConnection(Connection connection) {
+	
+	public static void closeConnection (Connection connection) {
 		try {
 			if (connection != null) {
-				connection.close();
-				System.out.println("Connection closed successfully.");
+				connection.close ();
+				System.out.println ("Connection closed successfully.");
 			}
 		} catch (SQLException e) {
-			System.out.println("Error while closing the connection: " + e.getMessage());
+			System.out.println ("Error while closing the connection: " + e.getMessage ());
 		}
 	}
 }
